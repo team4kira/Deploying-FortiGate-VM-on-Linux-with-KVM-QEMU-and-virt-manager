@@ -2,30 +2,30 @@ Deploying FortiGate-VM on Linux with KVM/QEMU and virt-manager
 This guide explains how to deploy an official FortiGate-VM KVM image on a Linux host using KVM/QEMU, libvirt, and virt-manager. It also covers connecting the VM to a NAT network, activating Fortinet's permanent evaluation license, and creating an optional isolated network for safe lab practice.
 Scope: This is a non-production home-lab guide. Start with NAT and isolated virtual networks. Do not bridge the firewall directly to a production network until the topology, routing, and firewall policies are understood.
 Table of Contents
-	What You Need
-	1. Download the Correct Image
-	2. Install Virtualization Components
-	3. Enable the Default NAT Network
-	4. Extract the FortiGate Image
-	5. Create the FortiGate VM
-	6. Configure the VM Before First Boot
-	7. First Console Login
-	8. Configure port1 for NAT and GUI Access
-	9. Access the FortiGate GUI
-	10. Activate the Permanent Evaluation License
-	11. Complete Initial Onboarding
-	12. Create an Isolated LAN Lab Network
-	13. Back Up and Snapshot
-	Troubleshooting
+·	What You Need
+·	1. Download the Correct Image
+·	2. Install Virtualization Components
+·	3. Enable the Default NAT Network
+·	4. Extract the FortiGate Image
+·	5. Create the FortiGate VM
+·	6. Configure the VM Before First Boot
+·	7. First Console Login
+·	8. Configure port1 for NAT and GUI Access
+·	9. Access the FortiGate GUI
+·	10. Activate the Permanent Evaluation License
+·	11. Complete Initial Onboarding
+·	12. Create an Isolated LAN Lab Network
+·	13. Back Up and Snapshot
+·	Troubleshooting
 What You Need
-	A 64-bit Intel or AMD Linux host with hardware virtualization enabled:
+·	A 64-bit Intel or AMD Linux host with hardware virtualization enabled:
 o	Intel VT-x, or
 o	AMD-V / SVM.
-	A Linux distribution that supports KVM/QEMU, libvirt, and virt-manager.
-	Internet access on the host.
-	A free FortiCare / Fortinet Support account for the permanent evaluation license.
-	At least 2 GB available RAM and a few GB of free disk space for the FortiGate VM itself.
-	Recommended for larger labs: 16 GB or more host RAM and SSD storage.
+·	A Linux distribution that supports KVM/QEMU, libvirt, and virt-manager.
+·	Internet access on the host.
+·	A free FortiCare / Fortinet Support account for the permanent evaluation license.
+·	At least 2 GB available RAM and a few GB of free disk space for the FortiGate VM itself.
+·	Recommended for larger labs: 16 GB or more host RAM and SSD storage.
 1. Download the Correct Image
 From the Fortinet Support portal, choose the new deployment package for the standard x86-64 KVM FortiGate image:
 FGT_VM64_KVM-v<version>-FORTINET.out.kvm.zip
@@ -42,10 +42,10 @@ FFW_VM64_KVM-...	FortiFirewall-VM product family, not FortiGate-VM.
 The new-deployment archive contains fortios.qcow2, the bootable virtual disk used by KVM/QEMU.
 2. Install Virtualization Components
 Install these core components using the package manager for your Linux distribution:
-	QEMU/KVM — virtualization engine and kernel acceleration
-	libvirt — VM and virtual-network management service
-	virt-manager — graphical virtual-machine manager
-	dnsmasq — commonly used by libvirt for NAT-network DHCP and DNS services
+·	QEMU/KVM — virtualization engine and kernel acceleration
+·	libvirt — VM and virtual-network management service
+·	virt-manager — graphical virtual-machine manager
+·	dnsmasq — commonly used by libvirt for NAT-network DHCP and DNS services
 Examples:
 Debian, Ubuntu, Linux Mint, or Pop!_OS
 sudo apt update
@@ -121,29 +121,29 @@ Use the copied image in virt-manager. If virt-manager reports a permissions prob
 5.	Browse to and select fortios.qcow2.
 6.	Select a generic Linux operating-system profile, such as Generic Linux 2022 or the nearest generic option.
 7.	Set the VM resources:
-o	Memory: 2048 MiB
-o	CPUs: 1
+o	Memory:2048 MiB
+o	CPUs:1
 8.	Set a descriptive VM name, for example:
-FortiGate-VM
+9.	FortiGate-VM
 
-9.	Select Customize configuration before install.
-10.	Click Finish.
+10.	Select Customize configuration before install.
+11.	Click Finish.
 The permanent evaluation license is intentionally resource-limited. Keep the VM at 1 vCPU and 2 GB RAM or less.
 6. Configure the VM Before First Boot
 In the customization window, verify the following settings before starting the VM.
 Virtual disk
-	Source: fortios.qcow2
-	Disk format: qcow2
-	Disk bus: VirtIO, where available
-	Boot order: the FortiGate disk must be the first boot device
+·	Source: fortios.qcow2
+·	Disk format: qcow2
+·	Disk bus: VirtIO, where available
+·	Boot order: the FortiGate disk must be the first boot device
 Network adapter
-	Network source: Virtual network default: NAT
-	Device model: VirtIO
-	Link state: connected / active
+·	Network source: Virtual network default: NAT
+·	Device model: VirtIO
+·	Link state: connected / active
 Use only one network adapter initially. FortiGate recognizes it as port1.
 Firmware
-	Start with default BIOS/legacy firmware.
-	If the VM does not boot, confirm that the virtual disk is first in boot order and try BIOS/legacy firmware instead of UEFI.
+·	Start with default BIOS/legacy firmware.
+·	If the VM does not boot, confirm that the virtual disk is first in boot order and try BIOS/legacy firmware instead of UEFI.
 Click Apply if that button appears, then click Begin Installation or Run.
 7. First Console Login
 Wait for the console prompt:
@@ -200,28 +200,28 @@ Do not search for the address in a search engine; enter the full https:// URL in
 A newly deployed VM may state that it is unlicensed or that the current configuration has no valid license. This is expected.
 1.	In FortiOS, open the FortiGate VM License page or click Activate License.
 2.	Select:
-Evaluation License
+3.	Evaluation License
 
-3.	Do not select Upload License File unless a paid FortiGate-VM license has been purchased.
-4.	Enter the same FortiCare / Fortinet Support credentials used for support.fortinet.com.
-5.	Confirm the request and allow the VM to apply the license and reboot.
-6.	Wait for the FortiGate console login prompt to return, typically a few minutes.
-7.	Refresh the browser page and log in again.
+4.	Do not select Upload License File unless a paid FortiGate-VM license has been purchased.
+5.	Enter the same FortiCare / Fortinet Support credentials used for support.fortinet.com.
+6.	Confirm the request and allow the VM to apply the license and reboot.
+7.	Wait for the FortiGate console login prompt to return, typically a few minutes.
+8.	Refresh the browser page and log in again.
 Permanent evaluation limitations
 The permanent evaluation license is intended for lab use. The exact product limits can change by FortiOS release; commonly documented restrictions include:
-	One free evaluation VM per FortiCare account.
-	One vCPU.
-	Up to 2 GB RAM.
-	Up to three network interfaces.
-	Up to three firewall policies.
-	Up to three routes.
-	No FortiGuard subscription services or FortiCare support.
-	Limited encryption capabilities, with exceptions for GUI management and FortiManager communication.
+·	One free evaluation VM per FortiCare account.
+·	One vCPU.
+·	Up to 2 GB RAM.
+·	Up to three network interfaces.
+·	Up to three firewall policies.
+·	Up to three routes.
+·	No FortiGuard subscription services or FortiCare support.
+·	Limited encryption capabilities, with exceptions for GUI management and FortiManager communication.
 11. Complete Initial Onboarding
 During onboarding:
-	Migration prompt: choose No, Skip, or continue without migration when this is a new lab and no prior FortiGate configuration exists.
-	Automatic patch upgrades: for a training lab, consider disabling automatic patch upgrades initially. Manual upgrades allow snapshots, configuration backups, and change review before the VM reboots or behavior changes.
-	Dashboard layout: choose Comprehensive for learning. It makes more dashboard and FortiView monitoring pages visible. This choice affects only the GUI layout and can be changed later.
+·	Migration prompt: choose No, Skip, or continue without migration when this is a new lab and no prior FortiGate configuration exists.
+·	Automatic patch upgrades: for a training lab, consider disabling automatic patch upgrades initially. Manual upgrades allow snapshots, configuration backups, and change review before the VM reboots or behavior changes.
+·	Dashboard layout: choose Comprehensive for learning. It makes more dashboard and FortiView monitoring pages visible. This choice affects only the GUI layout and can be changed later.
 12. Create an Isolated LAN Lab Network
 After the VM is licensed and the GUI is accessible, create a separate internal network for test VMs. This provides a safe topology without connecting the practice environment directly to the physical LAN.
 Create fgt-lan in virt-manager
@@ -230,14 +230,14 @@ Create fgt-lan in virt-manager
 3.	Open Virtual Networks.
 4.	Click + to create a new virtual network.
 5.	Name it:
-fgt-lan
+6.	fgt-lan
 
-6.	Use an address range such as:
-10.10.10.0/24
+7.	Use an address range such as:
+8.	10.10.10.0/24
 
-7.	Choose an isolated network with no forwarding to a physical network.
-8.	Disable libvirt DHCP if FortiGate will provide DHCP later. Alternatively, leave it enabled temporarily for basic connectivity testing.
-9.	Finish the wizard and start the network.
+9.	Choose an isolated network with no forwarding to a physical network.
+10.	Disable libvirt DHCP if FortiGate will provide DHCP later. Alternatively, leave it enabled temporarily for basic connectivity testing.
+11.	Finish the wizard and start the network.
 Add a second FortiGate NIC
 1.	Shut down the FortiGate VM gracefully.
 2.	Open its VM details in virt-manager.
@@ -296,11 +296,11 @@ VM does not boot under UEFI	Firmware or boot-order issue	Switch to BIOS/legacy b
 Browser shows certificate warning	FortiGate uses a self-signed certificate initially	Verify the local IP and continue through the browser's advanced warning option
 
 Operating Notes
-	The FortiGate VM must be running to access its GUI or process traffic.
-	The virt-manager application and console window do not need to remain open after the VM is running.
-	Shutting down, suspending, or rebooting the Linux host stops the VM unless an advanced host-level configuration is used.
-	Keep the default NAT network active for the initial management/WAN interface.
-	For a home lab, start the VM manually while learning; configure VM autostart only after the setup is stable.
+·	The FortiGate VM must be running to access its GUI or process traffic.
+·	The virt-manager application and console window do not need to remain open after the VM is running.
+·	Shutting down, suspending, or rebooting the Linux host stops the VM unless an advanced host-level configuration is used.
+·	Keep the default NAT network active for the initial management/WAN interface.
+·	For a home lab, start the VM manually while learning; configure VM autostart only after the setup is stable.
 Useful Commands
 Host: check VM state
 virsh list --all
